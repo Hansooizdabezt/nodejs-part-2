@@ -20,13 +20,14 @@ const createUser = async (req, res) => {
 
 const getEditUserPage = async (req, res) => {
     const userId = req.params.id;
-    let user = await getUserById(userId);
+    let user = await User.findById(userId);
     return res.render('editUser.ejs', { user: user })
 }
 
 const updateUser = async (req, res) => {
     let { email, name, city, userId } = req.body;
-    updateUserbyId(email, name, city, userId);
+
+    await User.updateOne({ _id: userId }, { email, name, city });
 
     res.redirect('/');
 }
