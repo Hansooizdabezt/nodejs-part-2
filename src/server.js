@@ -3,7 +3,7 @@ const express = require('express')
 const configViewEngine = require('./config/viewEngine')
 const webRoutes = require('./routes/web')
 const connection = require('./config/database.js')
-const Kitten = require('./models/Kitten.js')
+const User = require('./models/user.js')
 
 
 const app = express()
@@ -17,10 +17,6 @@ app.use(express.urlencoded({ extended: true }));
 configViewEngine(app);
 
 app.use("/", webRoutes);
-
-const silence = new Kitten({ name: 'hellooooooo bro , im hansoo' });
-
-silence.save();
 
 (async () => {
     await connection();

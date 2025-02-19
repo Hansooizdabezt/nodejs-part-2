@@ -19,10 +19,11 @@ const updateUserbyId = async (email, name, city, userId) => {
 }
 
 const handleCreateUser = async (email, name, city) => {
-    const [results, fields] = await connection.query(
-        `INSERT INTO Users(email, name, city)
-        VALUES(?, ?, ?)`,
-        [email, name, city])
+    // const [results, fields] = await connection.query(
+    //     `INSERT INTO Users(email, name, city)
+    //     VALUES(?, ?, ?)`,
+    //     [email, name, city])
+
 }
 
 const deleteUserById = async (userId) => {

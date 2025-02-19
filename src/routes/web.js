@@ -1,6 +1,5 @@
 const express = require('express')
 const { getHomePage, createUser, getCreateUserPage, getEditUserPage, updateUser, getDeleteUserPage, deleteUser } = require('../controllers/homeController');
-const { deleteUserbyId } = require('../services/CRUDService');
 
 const router = express.Router()
 
