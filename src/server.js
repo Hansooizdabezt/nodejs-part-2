@@ -16,10 +16,14 @@ configViewEngine(app);
 
 app.use("/", webRoutes);
 
-connection();
+
+
+(async () => {
+    await connection();
+    app.listen(port, hostname, () => {
+        console.log(`App listening on http://localhost:${port}`)
+    })
+})()
 
 
 
-app.listen(port, hostname, () => {
-    console.log(`App listening on http://localhost:${port}`)
-})
