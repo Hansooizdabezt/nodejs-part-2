@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const { uploadSingleFile, uploadMultipleFiles } = require('../services/fileService');
 
 const getAllUsers = async (req, res) => {
     try {
@@ -13,7 +14,6 @@ const getAllUsers = async (req, res) => {
             message: 'Error getting all users'
         });
     }
-
 }
 
 const createUser = async (req, res) => {
@@ -64,4 +64,36 @@ const deleteUser = async (req, res) => {
     }
 }
 
-module.exports = { getAllUsers, createUser, updateUser, deleteUser }
+const postUploadSingleFileApi = async (req, res) => {
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).send('No files were uploaded.');
+    }
+
+    let result = await uploadSingleFile(req.files.image);
+    console.log("result = ", result)
+    return res.status(200).json({
+        EC: 0,
+        data: result
+    })
+}
+
+const postUploadMultipleFilesApi = async (req, res) => {
+    if (!req.files || Object.keys(req.files).length === 0) {
+        return res.status(400).send('No files were uploaded.');
+    }
+    if (Array.isArray(req.files.image)) {
+        let result = await uploadMultipleFiles(req.files.image);
+
+        return res.status(200).json({
+            EC: 0,
+            data: result
+        })
+    } else {
+        return await postUploadSingleFileApi(req, res);
+    }
+}
+
+module.exports = {
+    getAllUsers, createUser, updateUser, deleteUser,
+    postUploadSingleFileApi, postUploadMultipleFilesApi
+}
