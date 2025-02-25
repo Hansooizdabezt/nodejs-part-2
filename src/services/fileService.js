@@ -13,14 +13,14 @@ const uploadSingleFile = async (fileObject) => {
     let basename = path.basename(fileObject.name, extName);
 
     let finalName = `${basename}-${Date.now()}${extName}`;
-    let finalPath = path.join(uploadDir, finalName);
+    let finalPath = `${uploadDir}/${finalName}`;
 
 
     try {
         await fileObject.mv(finalPath);
         return {
             status: 'success',
-            path: "link-image",
+            path: finalName,
             error: null
         }
     } catch (error) {
@@ -50,7 +50,7 @@ const uploadMultipleFiles = async (filesArr) => {
             let basename = path.basename(filesArr[i].name, extName);
 
             let finalName = `${basename}-${Date.now()}${extName}`;
-            let finalPath = path.join(uploadDir, finalName);
+            let finalPath = `${uploadDir}/${finalName}`;
 
             try {
                 await filesArr[i].mv(finalPath);
