@@ -44,7 +44,7 @@ const createCustomer = async (req, res) => {
 const createListCustomers = async (req, res) => {
     try {
         let customer = await createArrayCustomerService(req.body.customers)
-        if (customers) {
+        if (customer) {
             res.status(201).json({
                 message: "Creating array customer successfully",
                 data: customer,
@@ -66,4 +66,50 @@ const createListCustomers = async (req, res) => {
     }
 };
 
-module.exports = { createCustomer, createListCustomers };
+const getAllCustomers = async (req, res) => {
+    try {
+        let customers = await Customer.find();
+        if (customers) {
+            res.status(201).json({
+                message: "Getting All customer successfully",
+                data: customers,
+            });
+        } else {
+            console.log("Error Getting All customer: " + error);
+            res.status(500).json({
+                message: "Error Getting All customer",
+            });
+        }
+
+    } catch (error) {
+        console.log("Error Create User: " + error);
+        res.status(500).json({
+            message: "Error Getting All customer",
+        });
+    }
+}
+
+const updateCustomer = async (req, res) => {
+    let { id, name, email, address } = req.body;
+    try {
+        const customer = await Customer.updateOne({ _id: id, name: name, email: email, address });
+        if (customer) {
+            return res.status(200).json({
+                message: 'Update user successfully'
+            });
+        } else {
+            console.log("Error Update User: " + error);
+            return res.status(500).json({
+                message: 'Error updating user'
+            });
+        }
+    } catch (error) {
+        console.log("Error Update User: " + error);
+        return res.status(500).json({
+            message: 'Error updating user'
+        });
+    }
+
+}
+
+module.exports = { createCustomer, createListCustomers, getAllCustomers, updateCustomer };
