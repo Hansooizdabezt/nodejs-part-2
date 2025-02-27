@@ -29,4 +29,28 @@ const createArrayCustomerService = async (arr) => {
     }
 }
 
-module.exports = { createCustomerService, createArrayCustomerService };
+const updateCustomerService = async (id, name, email, address) => {
+    try {
+        const customer = await Customer.updateOne({ _id: id }, { name: name, email: email, address: address });
+        return customer;
+    } catch (error) {
+        console.log("error >>> ", error)
+        return null;
+    }
+
+
+}
+
+const deleteCustomerService = async (id) => {
+    try {
+        const customer = await Customer.deleteById({ _id: id });
+        return customer;
+
+    } catch (error) {
+        console.log("error >>> ", error)
+        return null;
+    }
+
+
+}
+module.exports = { createCustomerService, createArrayCustomerService, updateCustomerService, deleteCustomerService };

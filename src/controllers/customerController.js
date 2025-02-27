@@ -3,7 +3,7 @@ const {
     uploadMultipleFiles,
 } = require("../services/fileService");
 const Customer = require("../models/customer");
-const { createCustomerService, createArrayCustomerService } = require("../services/customerService");
+const { createCustomerService, createArrayCustomerService, updateCustomerService, deleteCustomerService } = require("../services/customerService");
 
 const createCustomer = async (req, res) => {
     try {
@@ -92,8 +92,8 @@ const getAllCustomers = async (req, res) => {
 const updateCustomer = async (req, res) => {
     let { id, name, email, address } = req.body;
     try {
-        const customer = await Customer.updateOne({ _id: id, name: name, email: email, address });
-        if (customer) {
+        const result = await updateCustomerService(id, name, email, address);
+        if (result) {
             return res.status(200).json({
                 message: 'Update user successfully'
             });
@@ -112,4 +112,29 @@ const updateCustomer = async (req, res) => {
 
 }
 
-module.exports = { createCustomer, createListCustomers, getAllCustomers, updateCustomer };
+const deleteCustomer = async (req, res) => {
+    let id = req.body.id;
+    try {
+        const result = await deleteCustomerService(id);
+        if (result) {
+            return res.status(200).json({
+                message: 'Delete user successfully'
+            });
+        } else {
+            console.log("Error Delete User: " + error);
+            return res.status(500).json({
+                message: 'Error Delete user'
+            });
+        }
+    } catch (error) {
+        console.log("Error Delete User: " + error);
+        return res.status(500).json({
+            message: 'Error Delete user'
+        });
+    }
+}
+
+module.exports = {
+    createCustomer, createListCustomers,
+    getAllCustomers, updateCustomer, deleteCustomer
+};
