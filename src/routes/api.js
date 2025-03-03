@@ -1,6 +1,6 @@
 const express = require('express')
 const { getAllUsers, createUser, updateUser, deleteUser, postUploadSingleFileApi, postUploadMultipleFilesApi } = require('../controllers/apiController');
-const { createCustomer, createListCustomers, getAllCustomers, updateCustomer, deleteCustomer } = require('../controllers/customerController');
+const { createCustomer, createListCustomers, getAllCustomers, updateCustomer, deleteCustomer, deleteArrayCustomers } = require('../controllers/customerController');
 
 const router = express.Router()
 
@@ -26,6 +26,7 @@ router.post('/customers-many', createListCustomers);
 router.get('/customers', getAllCustomers);
 router.put('/customers', updateCustomer);
 router.delete('/customers', deleteCustomer);
+router.delete('/customers-many', deleteArrayCustomers);
 
 deleteCustomer
 

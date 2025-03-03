@@ -3,7 +3,7 @@ const {
     uploadMultipleFiles,
 } = require("../services/fileService");
 const Customer = require("../models/customer");
-const { createCustomerService, createArrayCustomerService, updateCustomerService, deleteCustomerService } = require("../services/customerService");
+const { createCustomerService, createArrayCustomerService, updateCustomerService, deleteCustomerService, deleteListCustomersService } = require("../services/customerService");
 
 const createCustomer = async (req, res) => {
     try {
@@ -71,6 +71,7 @@ const getAllCustomers = async (req, res) => {
         let customers = await Customer.find();
         if (customers) {
             res.status(201).json({
+                count: customers.length,
                 message: "Getting All customer successfully",
                 data: customers,
             });
@@ -134,7 +135,30 @@ const deleteCustomer = async (req, res) => {
     }
 }
 
+
+const deleteArrayCustomers = async (req, res) => {
+    let ids = req.body.customersId;
+    try {
+        const result = await deleteListCustomersService(ids);
+        if (result) {
+            return res.status(200).json({
+                message: 'Delete list users successfully'
+            });
+        } else {
+            console.log("Error Delete User: " + error);
+            return res.status(500).json({
+                message: 'Error Delete list users'
+            });
+        }
+    } catch (error) {
+        console.log("Error Delete User: " + error);
+        return res.status(500).json({
+            message: 'Error Delete list users'
+        });
+    }
+}
+
 module.exports = {
     createCustomer, createListCustomers,
-    getAllCustomers, updateCustomer, deleteCustomer
+    getAllCustomers, updateCustomer, deleteCustomer, deleteArrayCustomers
 };
